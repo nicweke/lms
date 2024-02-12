@@ -34,7 +34,7 @@ export async function PATCH(
             }
         })
 
-        // TODO: Handle video upload
+
 
 
         return NextResponse.json(chapter)

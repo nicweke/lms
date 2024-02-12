@@ -5,6 +5,7 @@ import { ArrowLeft, LayoutDashboard } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ChapterTitleForm } from "./_components/chapter-title-form";
+import { ChapterDescriptionForm } from "./_components/chapter-description-form";
 
 const ChapterIdPage = async ({
   params,
@@ -51,7 +52,7 @@ const ChapterIdPage = async ({
           </Link>
           <div className="items-center justify-between w-full flex">
             <div className="flex flex-col gap-y-2">
-              <h1 className="text-2xl font-medium">Course Creation</h1>
+              <h1 className="text-2xl font-medium">Course Chapter Creation</h1>
               <span className="text-sm text-slate-700">
                 Complete all fields {completionText}
               </span>
@@ -67,6 +68,11 @@ const ChapterIdPage = async ({
               <h2 className="text-xl">Customize your chapters</h2>
             </div>
             <ChapterTitleForm
+              initialData={chapter}
+              courseId={params.courseId}
+              chapterId={params.chapterId}
+            />
+            <ChapterDescriptionForm
               initialData={chapter}
               courseId={params.courseId}
               chapterId={params.chapterId}
