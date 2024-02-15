@@ -4,6 +4,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "sonner";
+import { ConfettiProvider } from "@/providers/confetti-providers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,6 +22,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={cn("h-full relative antialiased", inter.className)}>
+          <ConfettiProvider />
           <div className="flex-grow flex-1">{children}</div>
           <Toaster position="top-center" richColors />
         </body>

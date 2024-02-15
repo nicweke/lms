@@ -72,7 +72,7 @@ export const ChapterTitleForm = ({
           ) : (
             <>
               <Pencil className="h-4 w-4 mr-2" />
-              Edit Course Title
+              Edit Chapter Title
             </>
           )}
         </Button>
