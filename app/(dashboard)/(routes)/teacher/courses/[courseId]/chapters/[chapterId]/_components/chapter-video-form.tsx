@@ -2,14 +2,15 @@
 
 import * as z from "zod";
 import axios from "axios";
-import { useState } from "react";
 import MuxPlayer from "@mux/mux-player-react";
-import { Button } from "@/components/ui/button";
 import { Pencil, PlusCircle, Video } from "lucide-react";
+import { useState } from "react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { Chapter, MuxData } from "@prisma/client";
 import Image from "next/image";
+
+import { Button } from "@/components/ui/button";
 import { FileUpload } from "@/components/file-upload";
 
 interface ChapterVideoFormProps {
@@ -27,11 +28,11 @@ export const ChapterVideoForm = ({
   courseId,
   chapterId,
 }: ChapterVideoFormProps) => {
-  const router = useRouter();
+  const [isEditing, setIsEditing] = useState(false);
 
   const toggleEdit = () => setIsEditing((current) => !current);
 
-  const [isEditing, setIsEditing] = useState(false);
+  const router = useRouter();
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
@@ -39,17 +40,18 @@ export const ChapterVideoForm = ({
         `/api/courses/${courseId}/chapters/${chapterId}`,
         values
       );
-      toast.success("Chapter Video Added!");
+      toast.success("Chapter updated");
       toggleEdit();
       router.refresh();
-    } catch (error) {
-      toast.error("Something went wrong!");
+    } catch {
+      toast.error("Something went wrong");
     }
   };
+
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
-      <div className="flex font-medium items-center justify-between">
-        Chapter Video
+      <div className="font-medium flex items-center justify-between">
+        Chapter video
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing && <>Cancel</>}
           {!isEditing && !initialData.videoUrl && (
@@ -61,16 +63,15 @@ export const ChapterVideoForm = ({
           {!isEditing && initialData.videoUrl && (
             <>
               <Pencil className="h-4 w-4 mr-2" />
-              Edit Chapter Video
+              Edit video
             </>
           )}
         </Button>
       </div>
-
       {!isEditing &&
         (!initialData.videoUrl ? (
-          <div className="flex items-center justify-center rounded-md h-60 bg-slate-300">
-            <Video className="h-10 w-10 test-slate-500" />
+          <div className="flex items-center justify-center h-60 bg-slate-200 rounded-md">
+            <Video className="h-10 w-10 text-slate-500" />
           </div>
         ) : (
           <div className="relative aspect-video mt-2">
@@ -82,10 +83,12 @@ export const ChapterVideoForm = ({
           <FileUpload
             endpoint="chapterVideo"
             onChange={(url) => {
-              if (url) onSubmit({ videoUrl: url });
+              if (url) {
+                onSubmit({ videoUrl: url });
+              }
             }}
           />
-          <div className="text-xs text-muted-foreground" aria-hidden="true">
+          <div className="text-xs text-muted-foreground mt-4">
             Upload this chapter&apos;s video
           </div>
         </div>
